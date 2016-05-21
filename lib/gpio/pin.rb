@@ -7,8 +7,7 @@ module GPIO
 
 			@pin = params[:pin].to_i
 
-			@hardware_pin = device.hardware_pin(pin)
-			@software_pin = device.software_pin(pin)
+			@hardware_pin, @software_pin = device.get_pin_mappings(pin)
 
 			@mode = params[:mode].to_s
 			raise "Mode should be :in, :out, :bi, :pwm." unless ['in','out'].include? @mode

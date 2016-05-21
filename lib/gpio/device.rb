@@ -1,12 +1,29 @@
 module GPIO
 	module Device
-		def software_pin(pin)
-			raise "That software pin #{pin} doesn't exist." unless self::SOFTWARE_PINS.include? pin
-			self::MAPPING == :software ? pin : self::SOFTWARE_PINS[self::HARDWARE_PINS.index(pin)]
+		def get_pin_mappings(pin)
+			if self::MAPPING == :hardware
+				return pin, software_pin(pin)
+			else
+				return hardware_pin(pin), pin
+			end
 		end
 		def hardware_pin(pin)
-			raise "That hardware pin #{pin} doesn't exist." unless self::HARDWARE_PINS.include? pin
-			self::MAPPING == :hardware ? pin : self::HARDWARE_PINS[self::SOFTWARE_PINS.index(pin)]
+			if self::MAPPING == :hardware
+				pin
+			else
+				raise "Software pin #{pin} doesn't exist." unless self::SOFTWARE_PINS.include? pin
+
+				self::HARDWARE_PINS[self::SOFTWARE_PINS.index(pin)]
+			end
+		end
+		def software_pin(pin)
+			if self::MAPPING == :software
+				pin
+			else
+				raise "Hardware pin #{pin} doesn't exist." unless self::HARDWARE_PINS.include? pin
+
+				self::SOFTWARE_PINS[self::HARDWARE_PINS.index(pin)]
+			end
 		end
 		def load_pins
 			get_pins(:hardware).map{|pin| Pin.new(pin,get_direction(pin),self)}
