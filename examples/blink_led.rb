@@ -21,8 +21,9 @@ end
 
 # ------------------------------------------------------------------------------
 
-device = :RaspberryPi
-device = :RaspberryPiRevision2
+device = :RaspberryPi           # A,  B - Revision1
+device = :RaspberryPiRevision2  # A,  B - Revision2
+device = :RaspberryPi40Pin      # A+, B+, 2, Zero, 3
 
 # ------------------------------------------------------------------------------
 
